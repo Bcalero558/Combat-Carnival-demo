@@ -5,6 +5,8 @@ import java.awt.Graphics;
 public class Sprite extends Rect
 {
 	
+	int direction = 1;
+	
 	Animation[] animation;
 	
 	int action = 0;
