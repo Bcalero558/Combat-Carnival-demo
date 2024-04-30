@@ -17,11 +17,11 @@ boolean D_pressed = false;
  ///////////////////////////////////////////////////////
    
 ////Objects /////////////////////////////////////////////    
-    Rect[] wall = 
+    Rect2[] wall = 
 	{
-			   new Rect (10,10,10,10),
-			   new Rect (10,10,10,10),  
-			   new Rect (20,10,10,10)
+			   new Rect2 (10,10,10,10),
+			   new Rect2 (10,10,10,10),  
+			   new Rect2 (20,10,10,10)
    };
    Rect p1 = new Rect (20,10,10,10);
 Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
