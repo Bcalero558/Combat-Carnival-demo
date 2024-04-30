@@ -11,19 +11,20 @@ boolean W_pressed = false;
 boolean A_pressed = false;
 boolean S_pressed = false;
 boolean D_pressed = false;
+boolean H_pressed = false;
  Thread t = new Thread (this);
-    int mx;
-    int my;
+    int mx = -1;
+    int my = -1;
  ///////////////////////////////////////////////////////
    
 ////Objects /////////////////////////////////////////////    
     Rect2[] wall = 
 	{
-			   new Rect2 (10,10,10,10),
-			   new Rect2 (10,10,10,10),  
-			   new Rect2 (20,10,10,10)
+			   new Rect2 (-2, 869, 1919, 100),
+			   new Rect2 (-1, 509, 60, 360),  
+			   new Rect2 (1805, 509, 114, 360)
    };
-   Rect p1 = new Rect (20,10,10,10);
+   Rect p1 = new Rect (96, 858, 70, 160);
 Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
 ///////////////////////////////////////////////////////////////////////
 
@@ -33,6 +34,7 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 	{
 		addKeyListener(this);
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		requestFocus();
 		t.start();
 	}
@@ -44,24 +46,23 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 		/* game loop */
 		while (true) 
 		{
-			if(W_pressed) p1.moveBy(0, -1);
-			if(A_pressed) p1.moveBy(-1, 0);
-			if(S_pressed) p1.moveBy(0, 1);
-			if(D_pressed) p1.moveBy(1, 0);
-			for(int i = 0; i < wall.length;i++) {
-			if (p1.overlaps(wall[i])) {
-				if(p1.fromLeft(wall[i]))
-					p1.pushBackLeft(wall[i]);
-		
-				if(p1.fromRight(wall[i]))
-					p1.pushBackRight(wall[i]);
-			
-				if(p1.fromUp(wall[i]))
-					p1.pushBackUp(wall[i]);
-		
-				if(p1.fromDown(wall[i]))
-					p1.pushBackDown(wall[i]);
+			if(W_pressed) p1.moveUP(10);
+			if(A_pressed) p1.moveLT(10);
+			if(S_pressed) p1.moveDN(10);
+			if(D_pressed) p1.moveRT(10);
+			if(H_pressed) {
+			System.out.println("Rect " + (1) + " " + wall[0].toString());
+			System.out.println("Rect " + (2) + " " + wall[1].toString());
+			System.out.println("Rect " + (3) + " " + wall[2].toString());
+			System.out.println("player " + (1) + " " + p1.toString());
 			}
+			for(int i = 0; i < wall.length;i++) 
+			{
+			if (p1.overlaps(wall[i])) 
+			{
+				p1.pushedOutOf(wall[i]);
+			}
+			
 			}			/* makes it so program runs with frame rate rather than infinite speed */
 			try 
 			{
@@ -100,6 +101,8 @@ public void keyPressed(KeyEvent e)
 	if (key == e.VK_S) S_pressed = true;
 	
 	if (key == e.VK_D) D_pressed = true;
+	
+	if (key == e.VK_H) H_pressed = true;
 
 }
 
@@ -114,6 +117,8 @@ int key = e.getKeyCode();
 	if (key == e.VK_S) S_pressed = false;
 	
 	if (key == e.VK_D) D_pressed = false;
+	
+	if (key == e.VK_H) H_pressed = false;
 
 }
 ///////////////////////////////////////////////
@@ -140,16 +145,20 @@ my = e.getY();
 	System.out.println( mx + " , " + my );
 	
 	for(int i = 0; i < wall.length;i++) {
-	if(wall[i].contains(mx, my)) wall[i].grab();
+	if(wall[i].contains(mx, my)) wall[i].grabbed();
 	
-	if (wall[i].resizer.contains(mx, my)) wall[i].resizer.grab();
+	if (wall[i].resizer.contains(mx, my)) wall[i].resizer.grabbed();
 }
 }
 
 @Override
 public void mouseReleased(MouseEvent e) {
 	// TODO Auto-generated method stub
-	
+
+	for(int i = 0; i < wall.length;i++) {
+	wall[i].dropped();
+	wall[i].resizer.dropped();
+	}
 }
 @Override
 public void mouseEntered(MouseEvent e) {
@@ -167,25 +176,19 @@ public void mouseDragged(MouseEvent e)
 	
 	int nx = e.getX();
 	int ny = e.getY();
+	
 	int dx = nx - mx;
 	int dy = ny - my;
-	for(int i = 0; i < wall.length;i++)
-	{
-		
-	if(wall[i].resizer.held)
-	{
-		wall[i].resizeBy(dx,dy);
-	
+	for(int i = 0; i < wall.length;i++) {
+	if(wall[i].resizer.held)  wall[i].resizeBy(dx,  dy);
+	else
+	if(wall[i].held)  wall[i].moveBy(dx, dy);
 	}
-	else if(wall[i].held)
-	{
-		wall[i].moveBy(dx,dy);
-	}
-	mx=nx;
-	my=ny;
-	
-	}
+	mx = nx;
+	my = ny;
 }
+	
+
 
 @Override
 public void mouseMoved(MouseEvent e) {

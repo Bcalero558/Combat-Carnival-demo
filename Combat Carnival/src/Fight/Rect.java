@@ -14,6 +14,8 @@ public class Rect
 	
 	int w;
 	int h;
+	
+	boolean held = false;
 ///////////////////////////////////////////////////	
 
 //////constructor///////////////////////////////////
@@ -72,7 +74,13 @@ public class Rect
 	// moves object			
 	   y -=dy;
 	}
-
+	public void pushedOutOf(Rect r)
+	{
+		if(fromUp(r)) 	  pushBackUp(r);
+		if(fromDown(r))   pushBackDown(r);
+		if(fromLeft(r))   pushBackLeft(r);		
+		if(fromRight(r))  pushBackRight(r);
+	}
 ///////////////////////////////////////////////
 	
 //change the size///////////////////////////
@@ -144,6 +152,15 @@ public class Rect
 		
 		
 	}
+	
+// checks if it is inside certain area
+	public boolean contains(int mx, int my)
+	{
+		return (mx >= x    )  &&
+			   (mx <= x + w)  &&
+			   (my >= y    )  &&
+			   (my <= y + h);
+	}
 //////////////////////////////////////////////////////////////////////
 
 ///////// pushes rectangle back if collides////////////////////////////
@@ -162,4 +179,19 @@ public class Rect
 	}
 ////////////////////////////////////////////////////////////////////////////
 	
+// mouse detection //////
+	public void grabbed()
+	{
+		held = true;
+	}
+	
+	public void dropped()
+	{
+		held = false;
+	}
+////////////////////////////////////////////////////////////////////
+	public String toString()
+	{
+		return "new Rect(" + x + ", " + y + ", " + w + ", " + h + "),";
+	}
 }
