@@ -9,8 +9,10 @@ public class Rect
 	int x;
 	int y;
 	
-	int old_x;
-	int old_y;
+	double vx = 0;
+	double vy = 0;
+	static double g = 3.5;
+	
 	
 	int w;
 	int h;
@@ -36,10 +38,14 @@ public class Rect
 ///////////////////////////////////////////
 
 //move rectangle///////////////////////////
+	public void setVelocity(double vx, double vy)
+	{
+		this.vx = vx;
+		this.vy = vy;
+	}
 	public void moveBy(int dx, int dy) 
 	{
-		old_x = x;
-		old_y = y;
+		
 		   x += dx;
 		   y += dy;
 		
@@ -48,39 +54,37 @@ public class Rect
 
 	public void moveLT(int dx)	
 	{
-	// keeps old values
-	old_x = x;
-	// moves object			
-	   x -=dx;
+	   this.vx = -dx;
 	}
 	public void moveRT(int dx)	
 	{
-	// keeps old values
-	old_x = x;
-	// moves object			
-	   x +=dx;
+	
+		   this.vx = +dx;
 	}
 	public void moveDN(int dy)	
 	{
-	// keeps old values
-	old_y = y;
-	// moves object			
-	   y +=dy;
+		this.vy = +dy;
 	}
 	public void moveUP(int dy)	
 	{
-	// keeps old values
-	old_y = y;
-	// moves object			
-	   y -=dy;
+		this.vy = -dy;
 	}
-	public void pushedOutOf(Rect r)
+	public void jump() 
 	{
-		if(fromUp(r)) 	  pushBackUp(r);
-		if(fromDown(r))   pushBackDown(r);
-		if(fromLeft(r))   pushBackLeft(r);		
-		if(fromRight(r))  pushBackRight(r);
+		
+		vy = -25;
 	}
+	
+	public void move() 
+	{
+		x += vx;
+		y += vy;
+		
+		vx=0;
+		vy=g;
+	}
+	
+	
 ///////////////////////////////////////////////
 	
 //change the size///////////////////////////
@@ -95,49 +99,24 @@ public class Rect
 	
 ////////collision detection/////////////////////
 	
-	public boolean fromLeft(Rect r) {
-		
-		//reverses the symbol used in the overlap checker
-		if((old_x  +  w) < r.x)
-			{
-		
-			return true;
-			}
-		else
-			return false;
+	public boolean fromLeft(Rect r)
+	{	
+		return x-vx + w < r.x;
 	}
-	public boolean fromRight(Rect r) {
-		
-		
-		if(( (r.x+r.w) <   old_x))
-			{
-		
-			return true;
-			}
-		else
-			return false;
+	
+	public boolean fromRight(Rect r) 
+	{
+		return r.x + r.w < x-vx;
 	}
-	public boolean fromUp(Rect r) {
-		
-		
-		if(((old_y  +  h) < r.y))
-			{
-		
-			return true;
-			}
-		else
-			return false;
+	
+	public boolean fromUp(Rect r) 
+	{		
+		return y-vy + h < r.y;
 	}
-	public boolean fromDown(Rect r) {
-		
-		
-		if((r.y+r.h) <   old_y)
-			{
-		
-			return true;
-			}
-		else
-			return false;
+	
+	public boolean fromDown(Rect r) 
+	{	
+		return r.y + r.h < y-vy;
 	}
 	
 	public boolean overlaps(Rect r) {
@@ -161,15 +140,26 @@ public class Rect
 			   (my >= y    )  &&
 			   (my <= y + h);
 	}
+	
+	public void pushedOutOf(Rect r)
+	{
+		if(fromUp(r)) 	  pushBackUp(r);
+		if(fromDown(r))   pushBackDown(r);
+		if(fromLeft(r))   pushBackLeft(r);		
+		if(fromRight(r))  pushBackRight(r);
+	}
 //////////////////////////////////////////////////////////////////////
 
 ///////// pushes rectangle back if collides////////////////////////////
 	public void pushBackLeft(Rect r) {
 	  // equation to check left reversed
 		x = r.x - w - 1;
+		x += vx;
+		
 	}
 	public void pushBackRight(Rect r) {
 	   x =r.x+r.w + 1;
+	   x -= vx ;
 	}
 	public void pushBackUp(Rect r) {
 		 y = r.y - h - 1;

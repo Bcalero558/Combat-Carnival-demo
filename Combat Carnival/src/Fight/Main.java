@@ -24,7 +24,7 @@ boolean H_pressed = false;
 			   new Rect2 (-1, 509, 60, 360),  
 			   new Rect2 (1805, 509, 114, 360)
    };
-   Rect p1 = new Rect (96, 858, 70, 160);
+   Rect p1 = new Rect (616, 700, 70, 160);
 Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
 ///////////////////////////////////////////////////////////////////////
 
@@ -50,20 +50,32 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 			if(A_pressed) p1.moveLT(10);
 			if(S_pressed) p1.moveDN(10);
 			if(D_pressed) p1.moveRT(10);
+			p1.move();
 			if(H_pressed) {
 			System.out.println("Rect " + (1) + " " + wall[0].toString());
 			System.out.println("Rect " + (2) + " " + wall[1].toString());
 			System.out.println("Rect " + (3) + " " + wall[2].toString());
 			System.out.println("player " + (1) + " " + p1.toString());
 			}
-			for(int i = 0; i < wall.length;i++) 
+				if (p1.overlaps(wall[0])) 
 			{
-			if (p1.overlaps(wall[i])) 
-			{
-				p1.pushedOutOf(wall[i]);
-			}
+					p1.vy = 0;
+				p1.pushedOutOf(wall[0]);
 			
-			}			/* makes it so program runs with frame rate rather than infinite speed */
+			}
+				if (p1.overlaps(wall[1])) 
+				{
+						p1.vx = 0;
+					p1.pushedOutOf(wall[1]);
+				
+				}	
+			if (p1.overlaps(wall[2])) 
+			{
+					p1.vx = 0;
+				p1.pushedOutOf(wall[2]);
+			
+			}
+						/* makes it so program runs with frame rate rather than infinite speed */
 			try 
 			{
 				t.sleep(16);
