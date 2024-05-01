@@ -11,12 +11,13 @@ public class Rect
 	
 	double vx = 0;
 	double vy = 0;
-	static double g = 3.5;
+	static double g = 1.5;
 	
 	
 	int w;
 	int h;
 	
+	boolean airtime = false;
 	boolean held = false;
 ///////////////////////////////////////////////////	
 
@@ -71,17 +72,19 @@ public class Rect
 	}
 	public void jump() 
 	{
-		
-		vy = -25;
+		if(airtime == false) {
+		vy = -30;
+		airtime = true;
+		}
 	}
 	
 	public void move() 
 	{
-		x += vx;
-		y += vy;
+		x  += vx;
+		y  += vy + g/2;
 		
-		vx=0;
-		vy=g;
+		vx  = 0;
+		vy += g;
 	}
 	
 	

@@ -46,9 +46,9 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 		/* game loop */
 		while (true) 
 		{
-			if(W_pressed) p1.moveUP(10);
+			if(W_pressed) p1.jump();
 			if(A_pressed) p1.moveLT(10);
-			if(S_pressed) p1.moveDN(10);
+			//if(S_pressed) p1.moveDN(10);
 			if(D_pressed) p1.moveRT(10);
 			p1.move();
 			if(H_pressed) {
@@ -61,6 +61,7 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 			{
 					p1.vy = 0;
 				p1.pushedOutOf(wall[0]);
+					p1.airtime = false;
 			
 			}
 				if (p1.overlaps(wall[1])) 
