@@ -15,14 +15,16 @@ boolean H_pressed = false;
  Thread t = new Thread (this);
     int mx = -1;
     int my = -1;
+    Image    offScreenImg;
+	Graphics offScreenG;
  ///////////////////////////////////////////////////////
    
 ////Objects /////////////////////////////////////////////    
-    Rect2[] wall = 
+    Rect[] wall = 
 	{
-			   new Rect2 (-2, 869, 1919, 100),
-			   new Rect2 (-1, 509, 60, 360),  
-			   new Rect2 (1805, 509, 114, 360)
+			   new Rect (-2, 869, 1919, 100),
+			   new Rect (-1, 509, 60, 360),  
+			   new Rect (1805, 509, 114, 360)
    };
    Rect p1 = new Rect (616, 700, 70, 160);
 Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
@@ -32,6 +34,9 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 //Initializes anything used in program//////////////
 	public void init() 
 	{
+		offScreenImg = createImage(1920, 1200);
+		offScreenG = offScreenImg.getGraphics();
+		
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -47,34 +52,27 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 		while (true) 
 		{
 			if(W_pressed) p1.jump();
+			if(!p1.overlaps(wall[1]))
 			if(A_pressed) p1.moveLT(10);
 			//if(S_pressed) p1.moveDN(10);
+			if(!p1.overlaps(wall[2]))
 			if(D_pressed) p1.moveRT(10);
 			p1.move();
-			if(H_pressed) {
+		/*	if(H_pressed) {
 			System.out.println("Rect " + (1) + " " + wall[0].toString());
 			System.out.println("Rect " + (2) + " " + wall[1].toString());
 			System.out.println("Rect " + (3) + " " + wall[2].toString());
 			System.out.println("player " + (1) + " " + p1.toString());
 			}
-				if (p1.overlaps(wall[0])) 
-			{
-					p1.vy = 0;
-				p1.pushedOutOf(wall[0]);
-					p1.airtime = false;
+			*/
+			if (p1.overlaps(wall[0])) 	{p1.airtime = false; p1.pushedOutOf(wall[0]);}
 			
-			}
-				if (p1.overlaps(wall[1])) 
-				{
-						p1.vx = 0;
-					p1.pushedOutOf(wall[1]);
+			for(int i = 1; i < wall.length;i++) {
+				if (p1.overlaps(wall[i])) 
+			{
+				p1.pushedOutOf(wall[i]);
 				
-				}	
-			if (p1.overlaps(wall[2])) 
-			{
-					p1.vx = 0;
-				p1.pushedOutOf(wall[2]);
-			
+			}
 			}
 						/* makes it so program runs with frame rate rather than infinite speed */
 			try 
@@ -89,6 +87,7 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 ////// draws what happens////////////////////
 	public void paint(Graphics g) 
 	{
+		g.drawImage(Background, 0, 0, null);
 		g.setColor(Color.yellow);
 		for(int i = 0; i < wall.length;i++)
 		wall[i].draw(g);
@@ -139,9 +138,11 @@ int key = e.getKeyCode();
 ////////removes flickering//////////
 public void update(Graphics g)
 {
-	g.drawImage(Background,0,0,1920,1080,null);
-	paint(g);
+	offScreenG.clearRect(0, 0, 1920, 1200);
 	
+	paint(offScreenG);
+	
+	g.drawImage(offScreenImg, 0, 0, null);	
 }
 ///////////////////////////////////////////////
 
@@ -153,7 +154,7 @@ public void mouseClicked(MouseEvent e) {
 @Override
 public void mousePressed(MouseEvent e) {
 	// checks the mouse location when button is pressed
-mx = e.getX();
+/*mx = e.getX();
 my = e.getY();
 	System.out.println( mx + " , " + my );
 	
@@ -161,17 +162,20 @@ my = e.getY();
 	if(wall[i].contains(mx, my)) wall[i].grabbed();
 	
 	if (wall[i].resizer.contains(mx, my)) wall[i].resizer.grabbed();
+
 }
+*/
 }
 
 @Override
 public void mouseReleased(MouseEvent e) {
 	// TODO Auto-generated method stub
-
+/*
 	for(int i = 0; i < wall.length;i++) {
 	wall[i].dropped();
 	wall[i].resizer.dropped();
 	}
+*/
 }
 @Override
 public void mouseEntered(MouseEvent e) {
@@ -186,7 +190,7 @@ public void mouseExited(MouseEvent e) {
 @Override
 public void mouseDragged(MouseEvent e)
 {
-	
+	/*
 	int nx = e.getX();
 	int ny = e.getY();
 	
@@ -199,6 +203,7 @@ public void mouseDragged(MouseEvent e)
 	}
 	mx = nx;
 	my = ny;
+*/
 }
 	
 

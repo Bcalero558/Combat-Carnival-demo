@@ -11,14 +11,23 @@ public class Rect
 	
 	double vx = 0;
 	double vy = 0;
+	double ay = g;
 	static double g = 1.5;
-	
+	static double f = .6;
 	
 	int w;
 	int h;
 	
 	boolean airtime = false;
 	boolean held = false;
+	
+	public void physicsOff()
+	{
+		vx = 0;
+		vy = 0;
+		
+		ay = 0;
+	}
 ///////////////////////////////////////////////////	
 
 //////constructor///////////////////////////////////
@@ -44,6 +53,7 @@ public class Rect
 		this.vx = vx;
 		this.vy = vy;
 	}
+	
 	public void moveBy(int dx, int dy) 
 	{
 		
@@ -59,8 +69,7 @@ public class Rect
 	}
 	public void moveRT(int dx)	
 	{
-	
-		   this.vx = +dx;
+		this.vx = +dx;
 	}
 	public void moveDN(int dy)	
 	{
@@ -80,11 +89,11 @@ public class Rect
 	
 	public void move() 
 	{
-		x  += vx;
-		y  += vy + g/2;
+		x += vx;
+		y += vy + g/2;
 		
-		vx  = 0;
 		vy += g;
+
 	}
 	
 	
@@ -101,36 +110,53 @@ public class Rect
 ////////////////////////////////////////////
 	
 ////////collision detection/////////////////////
+	public boolean isLeftOf(Rect r)
+	{
+		return x + w < r.x;
+	}
+	
+	public boolean isRightOf(Rect r)
+	{
+		return r.x + r.w < x;
+	}
+	
+	public boolean isUp(Rect r)
+	{
+		return y + h < r.y;
+	}
+	
+	public boolean isDown(Rect r)
+	{
+		return r.y + r.h < y;
+	}
 	
 	public boolean fromLeft(Rect r)
 	{	
-		return x-vx + w < r.x;
+		return x - vx + w < r.x;
 	}
 	
 	public boolean fromRight(Rect r) 
 	{
-		return r.x + r.w < x-vx;
+		return r.x + r.w < x - vx;
 	}
 	
 	public boolean fromUp(Rect r) 
 	{		
-		return y-vy + h < r.y;
+		return y - vy + h < r.y;
 	}
 	
 	public boolean fromDown(Rect r) 
 	{	
-		return r.y + r.h < y-vy;
+		return r.y + r.h < y - vy;
 	}
 	
 	public boolean overlaps(Rect r) {
 				
-		return (x  +  w) >= r.x  && // left
-				
-			   (r.x+r.w) >=   x  && // right
-			  
-			   (y  +  h) >= r.y  &&  // up
-			  
-			   (r.y+r.h) >=   y ;   // down
+		return (x + w >= r.x      ) &&				
+				   (x     <= r.x + r.w) &&
+				   (y + h >= r.y      ) &&			   
+				   (y     <= r.y + r.h);
+
 		
 		
 	}
@@ -150,25 +176,32 @@ public class Rect
 		if(fromDown(r))   pushBackDown(r);
 		if(fromLeft(r))   pushBackLeft(r);		
 		if(fromRight(r))  pushBackRight(r);
+		vx *= f;
+		
+		if(Math.abs(vx) <= 1)  vx = 0;
 	}
 //////////////////////////////////////////////////////////////////////
 
 ///////// pushes rectangle back if collides////////////////////////////
+	public void bounceOff(Rect r)
+	{
+		if(fromUp(r)  || fromDown(r))    vy = -vy;
+		if(fromLeft(r) || fromRight(r))  vx = -vx;
+	}
 	public void pushBackLeft(Rect r) {
 	  // equation to check left reversed
 		x = r.x - w - 1;
-		x += vx;
 		
 	}
 	public void pushBackRight(Rect r) {
-	   x =r.x+r.w + 1;
-	   x -= vx ;
+	   x = r.x + r.w + 1;
 	}
 	public void pushBackUp(Rect r) {
 		 y = r.y - h - 1;
+		 vy = 0;
 	}
 	public void pushBackDown(Rect r) {
-	   y =r.y+r.h + 1;
+	   y = r.y + r.h + 1;
 	}
 ////////////////////////////////////////////////////////////////////////////
 	
