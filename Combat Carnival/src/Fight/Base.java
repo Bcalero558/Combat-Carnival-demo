@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class Base extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
+public abstract class Base extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
 //base variables/////
 boolean W_pressed = false;
@@ -19,9 +19,7 @@ boolean H_pressed = false;
 	Graphics offScreenG;
  ///////////////////////////////////////////////////////
    
-public void gameLoop () {
-	
-}
+public abstract void gameLoop ();
 //Initializes anything used in program//////////////
 	public void init() 
 	{
