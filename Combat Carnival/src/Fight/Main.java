@@ -20,6 +20,7 @@ boolean H_pressed = false;
  ///////////////////////////////////////////////////////
    
 ////Objects /////////////////////////////////////////////    
+	
     Rect[] wall = 
 	{
 			   new Rect (-2, 869, 1919, 100),
@@ -28,6 +29,7 @@ boolean H_pressed = false;
    };
    Rect p1 = new Rect (616, 700, 70, 160);
 Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
+Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/floor.PNG");
 ///////////////////////////////////////////////////////////////////////
 
 
@@ -88,6 +90,9 @@ Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/backgro
 	public void paint(Graphics g) 
 	{
 		g.drawImage(Background, 0, 0, null);
+		for(int i =0; i < 1919; i+=250) {
+		g.drawImage(Floor, i, 869, null);
+		}
 		g.setColor(Color.yellow);
 		for(int i = 0; i < wall.length;i++)
 		wall[i].draw(g);
@@ -154,10 +159,10 @@ public void mouseClicked(MouseEvent e) {
 @Override
 public void mousePressed(MouseEvent e) {
 	// checks the mouse location when button is pressed
-/*mx = e.getX();
+mx = e.getX();
 my = e.getY();
 	System.out.println( mx + " , " + my );
-	
+	/*
 	for(int i = 0; i < wall.length;i++) {
 	if(wall[i].contains(mx, my)) wall[i].grabbed();
 	
