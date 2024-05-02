@@ -19,7 +19,9 @@ boolean H_pressed = false;
 	Graphics offScreenG;
  ///////////////////////////////////////////////////////
    
-
+public void gameLoop () {
+	
+}
 //Initializes anything used in program//////////////
 	public void init() 
 	{
@@ -42,6 +44,7 @@ boolean H_pressed = false;
 		{
 			
 		// adds code
+			gameLoop();
 			
 			repaint();
 			try 

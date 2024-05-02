@@ -21,11 +21,9 @@ Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/f
 ///////////////////////////////////////////////////////////////////////
 	
 ///runs program///////////////////////
-	public void run() 
+	public void gameLoop() 
 	{
-		/* game loop */
-		while (true) 
-		{
+	
 			if(W_pressed) p1.jump();
 			if(!p1.overlaps(wall[1]))
 			if(A_pressed) p1.moveLT(10);
@@ -49,13 +47,7 @@ Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/f
 				
 			}
 			}
-						/* makes it so program runs with frame rate rather than infinite speed */
-			try 
-			{
-				t.sleep(16);
-			}catch(Exception x) {};
-			repaint();
-		}
+		
 	}
 ////////////////////////////////////////////
 	
