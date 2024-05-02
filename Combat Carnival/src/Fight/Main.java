@@ -15,9 +15,9 @@ public class Main extends Base
 			   new Rect (-1, 509, 60, 360),  
 			   new Rect (1805, 509, 114, 360)
    };
-   Rect p1 = new Rect (616, 700, 70, 160);
-Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
-Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/floor.PNG");
+   Rect p1 = new Rect (616 -Camera.x, 700 - Camera.y, 70, 160);
+ImageLayer Background = new ImageLayer("Combat Carnival/background/10.png",0,0,1);
+ImageLayer Floor = new ImageLayer("Combat Carnival/background/floor.PNG",0,869,2);
 ///////////////////////////////////////////////////////////////////////
 	
 ///runs program///////////////////////
@@ -54,9 +54,11 @@ Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/f
 ////// draws what happens////////////////////
 	public void paint(Graphics g) 
 	{
-		g.drawImage(Background, 0, 0, null);
+		Background.draw(g);
+		
 		for(int i =0; i < 1919; i+=250) {
-		g.drawImage(Floor, i, 869, null);
+		Floor.x = i;
+		Floor.draw(g);
 		}
 		g.setColor(Color.yellow);
 		for(int i = 0; i < wall.length;i++)
