@@ -4,21 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class Main extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
+public class Main extends Base
 {
-//base variables/////
-boolean W_pressed = false;
-boolean A_pressed = false;
-boolean S_pressed = false;
-boolean D_pressed = false;
-boolean H_pressed = false;
- Thread t = new Thread (this);
-    int mx = -1;
-    int my = -1;
-    Image    offScreenImg;
-	Graphics offScreenG;
- ///////////////////////////////////////////////////////
-   
+
 ////Objects /////////////////////////////////////////////    
 	
     Rect[] wall = 
@@ -31,21 +19,6 @@ boolean H_pressed = false;
 Image Background = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/10.png");
 Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/floor.PNG");
 ///////////////////////////////////////////////////////////////////////
-
-
-//Initializes anything used in program//////////////
-	public void init() 
-	{
-		offScreenImg = createImage(1920, 1200);
-		offScreenG = offScreenImg.getGraphics();
-		
-		addKeyListener(this);
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		requestFocus();
-		t.start();
-	}
-//////////////////////////////////////
 	
 ///runs program///////////////////////
 	public void run() 
@@ -101,123 +74,5 @@ Image Floor = Toolkit.getDefaultToolkit().getImage("Combat Carnival/background/f
 		p1.draw(g);
 	}
 /////////////////////////////////////////////////
-
-//////keyboard commands/////////////////////
-public void keyTyped(KeyEvent e) 
-{
-	
-}
-
-public void keyPressed(KeyEvent e) 
-{
-	int key = e.getKeyCode();
-	if (key == e.VK_W) W_pressed = true;
-	
-	if (key == e.VK_A) A_pressed = true;
-	
-	if (key == e.VK_S) S_pressed = true;
-	
-	if (key == e.VK_D) D_pressed = true;
-	
-	if (key == e.VK_H) H_pressed = true;
-
-}
-
-public void keyReleased(KeyEvent e) 
-{
-int key = e.getKeyCode();
-	
-	if (key == e.VK_W) W_pressed = false;
-	
-	if (key == e.VK_A) A_pressed = false;
-	
-	if (key == e.VK_S) S_pressed = false;
-	
-	if (key == e.VK_D) D_pressed = false;
-	
-	if (key == e.VK_H) H_pressed = false;
-
-}
-///////////////////////////////////////////////
-
-////////removes flickering//////////
-public void update(Graphics g)
-{
-	offScreenG.clearRect(0, 0, 1920, 1200);
-	
-	paint(offScreenG);
-	
-	g.drawImage(offScreenImg, 0, 0, null);	
-}
-///////////////////////////////////////////////
-
-/////mouse actions/////////////////////////////////////////
-public void mouseClicked(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mousePressed(MouseEvent e) {
-	// checks the mouse location when button is pressed
-mx = e.getX();
-my = e.getY();
-	System.out.println( mx + " , " + my );
-	/*
-	for(int i = 0; i < wall.length;i++) {
-	if(wall[i].contains(mx, my)) wall[i].grabbed();
-	
-	if (wall[i].resizer.contains(mx, my)) wall[i].resizer.grabbed();
-
-}
-*/
-}
-
-@Override
-public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-/*
-	for(int i = 0; i < wall.length;i++) {
-	wall[i].dropped();
-	wall[i].resizer.dropped();
-	}
-*/
-}
-@Override
-public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mouseDragged(MouseEvent e)
-{
-	/*
-	int nx = e.getX();
-	int ny = e.getY();
-	
-	int dx = nx - mx;
-	int dy = ny - my;
-	for(int i = 0; i < wall.length;i++) {
-	if(wall[i].resizer.held)  wall[i].resizeBy(dx,  dy);
-	else
-	if(wall[i].held)  wall[i].moveBy(dx, dy);
-	}
-	mx = nx;
-	my = ny;
-*/
-}
-	
-
-
-@Override
-public void mouseMoved(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-/////////////////////////////////////////////////////////////////////////////
 
 }
