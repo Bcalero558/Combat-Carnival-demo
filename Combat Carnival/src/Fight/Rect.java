@@ -6,8 +6,8 @@ import java.awt.*;
 public class Rect 
 {
 //// variables ////////////////////////////////	
-	int x;
-	int y;
+	int x, y, w, h;
+
 	
 	double vx = 0;
 	double vy = 0;
@@ -15,8 +15,7 @@ public class Rect
 	static double g = 1.5;
 	static double f = .6;
 	
-	int w;
-	int h;
+
 	
 	boolean airtime = false;
 	boolean held = false;
@@ -44,6 +43,11 @@ public class Rect
 	public void draw(Graphics g) 
 	{
 		g.drawRect(x, y, w, h);
+	}
+	
+	public void drawStill(Graphics g) 
+	{
+		g.drawRect(x - Camera.x, y-Camera.y, w, h);
 	}
 ///////////////////////////////////////////
 
