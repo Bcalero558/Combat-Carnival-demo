@@ -1,12 +1,10 @@
 package Fight;
-import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*;
 
 
 public class Main extends Base
 {
-
+	
 ////Objects /////////////////////////////////////////////    
 	Animation animation = new Animation("Combat Carnival", "default", "Left", "Idle", 9, 5);
     Rect[] wall = 
@@ -98,4 +96,5 @@ ImageLayer Floor = new ImageLayer("Combat Carnival/background/floor.PNG",0,869,5
 	}
 /////////////////////////////////////////////////
 
+	
 }

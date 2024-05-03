@@ -4,9 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 
+
 public abstract class Base extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
-//base variables/////
+	//base variables/////
  Thread t = new Thread (this);
     int mx = -1;
     int my = -1;
