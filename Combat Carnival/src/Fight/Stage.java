@@ -1,22 +1,15 @@
 package Fight;
-import java.applet.Applet;
+
 import java.awt.*;
 import java.awt.event.*;
 
-
-
-public abstract class Base extends Applet implements Runnable, KeyListener, MouseListener, MouseMotionListener
+public abstract class Stage  
 {
-	//base variables/////
- Thread t = new Thread (this);
-    int mx = -1;
-    int my = -1;
-    Image    offScreenImg;
-	Graphics offScreenG;
- ///////////////////////////////////////////////////////
-	/////all potential key presses
-boolean [] pressing = new boolean[1024];
+	static Stage[] stage = new Stage[40];
 	
+	static int total = 0;
+	
+
 	public static final int UP 			= KeyEvent.VK_UP;
 	public static final int DN 			= KeyEvent.VK_DOWN;
 	public static final int LT 			= KeyEvent.VK_LEFT;
@@ -72,6 +65,7 @@ boolean [] pressing = new boolean[1024];
 	public static final int SEMICOLON   = KeyEvent.VK_SEMICOLON;
 	public static final int COLON       = KeyEvent.VK_COLON;
 	public static final int QUOTE       = KeyEvent.VK_QUOTE;
+	public static final int ENTER       = KeyEvent.VK_ENTER;
 	
 	public static final int F1          = KeyEvent.VK_F1;
 	public static final int F2          = KeyEvent.VK_F2;
@@ -86,121 +80,23 @@ boolean [] pressing = new boolean[1024];
 	public static final int F11         = KeyEvent.VK_F11;
 	public static final int F12         = KeyEvent.VK_F12;	
 	
-   ///////////////////////////////////////
-public abstract void gameLoop ();
-public abstract void paint(Graphics g);
-//Initializes anything used in program//////////////
-	public void init() 
-	{
-		offScreenImg = createImage(1920, 1200);
-		offScreenG = offScreenImg.getGraphics();
+	static boolean [] pressing;
+	public Stage(boolean[] pressing) {
 		
-		addKeyListener(this);
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		requestFocus();
-		t.start();
+		this.pressing = pressing;
+		
+		total ++;
+		stage[total] = this;
+			  
+		
 	}
-//////////////////////////////////////
-	
-///runs program///////////////////////
-	public void run() 
+	public void setCurrent(int area) 
 	{
-		/* game loop */
-		while (true) 
-		{
-			
-		// adds code
-			gameLoop();
-			
-			repaint();
-			try 
-			{
-				t.sleep(16);
-			}catch(Exception x) {};
-			
-		}
+		stage[0] = stage[area];
 	}
-////////////////////////////////////////////
-
-//////keyboard commands/////////////////////
-public void keyTyped(KeyEvent e) 
-{
 	
-}
+	public abstract  void inGameLoop();
 
-public void keyPressed(KeyEvent e)
-{		
-	pressing[e.getKeyCode()] = true;
-}
-
-public void keyReleased(KeyEvent e)
-{
-	pressing[e.getKeyCode()] = false;
-}
-
-///////////////////////////////////////////////
-
-////////removes flickering//////////
-public void update(Graphics g)
-{
-	offScreenG.clearRect(0, 0, 1920, 1200);
-	
-	paint(offScreenG);
-	
-	g.drawImage(offScreenImg, 0, 0, null);	
-}
-///////////////////////////////////////////////
-
-/////mouse actions/////////////////////////////////////////
-public void mouseClicked(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mousePressed(MouseEvent e) {
-
-mx = e.getX();
-my = e.getY();
-	System.out.println( mx + " , " + my );
-
-}
-
-@Override
-public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-
-}
-@Override
-public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mouseDragged(MouseEvent e)
-{
-	int nx = e.getX();
-	int ny = e.getY();
-	
-	int dx = nx - mx;
-	int dy = ny - my;
-	
-	mx = nx;
-	my = ny;
-}
-	
-
-
-@Override
-public void mouseMoved(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-/////////////////////////////////////////////////////////////////////////////
+	 public abstract void paint(Graphics g) ;
 
 }

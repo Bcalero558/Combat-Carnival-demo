@@ -4,6 +4,7 @@ import java.awt.*;
 public class Rect2 extends Rect {
 	Rect resizer;	
 //constructor//////////////////////////////////////
+
 	public Rect2(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		
@@ -15,6 +16,8 @@ public class Rect2 extends Rect {
 ////draw rect /////////////////////////////////////////////////
 	public void draw(Graphics g)
 	{
+		
+		
 		super.draw(g);
 		
 		resizer.draw(g);

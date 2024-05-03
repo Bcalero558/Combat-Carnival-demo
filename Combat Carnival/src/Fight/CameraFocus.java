@@ -15,14 +15,14 @@ boolean moveCameraR = false;
 	}
 	
 	//checks how far is a rect from the focus of the camera
-	public void CameraMovement(Rect r,int distance) 
+	public void CameraMovement(Rect r1,Rect r2,int distance) 
 	{
-	if (x - distance <= r.x)  
+	if ((x - distance <= r1.x)&&(x - distance <= r2.x))  
 		moveCameraR = true;
 	else
 		moveCameraR = false;
 	
-	if (x + distance >= r.x+r.w)  
+	if ((x + distance >= r1.x+r1.w)&&(x + distance >= r1.x+r1.w))  
 		moveCameraL = true;
 	
 	else 
