@@ -35,7 +35,10 @@ public Image nextImage()
 	return image[getNext()];
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+public Image stillImage(int i)
+{
+	return image[i];
+}
 public int getNext() {
 	return next;
 }

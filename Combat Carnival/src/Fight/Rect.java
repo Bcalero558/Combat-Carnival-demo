@@ -5,6 +5,7 @@ import java.awt.*;
 // creates a rectangle
 public class Rect 
 {
+	boolean clicked = false;
 //// variables ////////////////////////////////	
 	int x, y, w, h;
 

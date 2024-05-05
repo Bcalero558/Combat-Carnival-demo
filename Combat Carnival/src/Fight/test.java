@@ -7,8 +7,9 @@ public class test extends Base
 {
 
 	boolean leftOfScreen = true;
-	boolean testing = false;
+	boolean testing = true;
 	
+	Image test = Toolkit.getDefaultToolkit().getImage("Combat Carnival/UI/Health/Player1 (1).png");
 	String []pose = {
 			"Idle","Walk", "Jump",
 			"Jab","Cross","Overhead","Lower",
@@ -24,6 +25,7 @@ public class test extends Base
 	
 	
 	public void gameLoop() {
+		
 		p1.moving= false;
 		p1.attacking = false;
 		Hitbox.hitbox_move(p1);
@@ -40,8 +42,10 @@ public class test extends Base
 		
 		if (pressing[_B]) 
 			p1.lower_attack();
-		if (pressing[_L]) 
+		if (pressing[_L]) { 
 			testing = true;
+		p1.testing = true;
+		}
 		//if(pressing[_S]) p1.moveDN(10);
 		if(pressing[_D])  p1.moveRT(5);
 		

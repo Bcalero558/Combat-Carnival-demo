@@ -15,18 +15,43 @@ boolean moveCameraR = false;
 	}
 	
 	//checks how far is a rect from the focus of the camera
+	public boolean moveRight(Rect r1,int distance) 
+	{
+		return x - distance <= r1.x;
+	}
+	
+	public boolean moveLeft(Rect r1,int distance) 
+	{
+		return x + distance >= r1.x+r1.w;
+	}
 	public void CameraMovement(Rect r1,Rect r2,int distance) 
 	{
-	if ((x - distance <= r1.x)&&(x - distance <= r2.x))  
+	if ((this.moveRight(r1, distance))&&!this.moveLeft(r2, distance)) { 
 		moveCameraR = true;
-	else
-		moveCameraR = false;
+		
+	}
+	else 
+		moveCameraR=false;
 	
-	if ((x + distance >= r1.x+r1.w)&&(x + distance >= r1.x+r1.w))  
+	if (this.moveLeft(r1, distance)&&!(this.moveRight(r2,distance)))  
 		moveCameraL = true;
 	
 	else 
 		moveCameraL=false;
+	
+	if ((this.moveRight(r2, distance))&&!this.moveLeft(r1, distance)) { 
+		moveCameraR = true;
+		
+	}
+	else 
+		moveCameraR=false;
+	
+	if (this.moveLeft(r2, distance)&&!(this.moveRight(r1,distance)))  
+		moveCameraL = true;
+	
+	else 
+		moveCameraL=false;
+
 		
 	}
 	public  void moveLT(int dx)	

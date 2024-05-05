@@ -8,7 +8,7 @@ public class cc_player extends Rect
 	String []pose = {
 			"Idle","Walk", "Jump",
 			"Jab","Cross","Overhead","Lower",
-			"Hurt"
+			"Hurt","Dead"
 		};
 
 	Animation[] animationL;
@@ -17,8 +17,8 @@ public class cc_player extends Rect
 	boolean moving = false;
 	boolean forward;
 	boolean attacking = false;
-	int timer = 50;
-	int delay = 50;
+	int timer = 100;
+	int delay = 100;
 	public boolean testing = false;
 	boolean player1;
 	
@@ -34,7 +34,7 @@ public class cc_player extends Rect
 		for(int i = 0; i < animationL.length;i++) 
 		{
 		// idle
-			if(i == 0) {
+			if(i == 0 || i == 8) {
 				animationL[i] = new Animation("Combat Carnival",name,"left", pose[i],10,duration);
 				animationR[i] = new Animation("Combat Carnival",name,"Right", pose[i],10,duration);
 			}
@@ -122,8 +122,27 @@ public void damaged(Hitbox hit)
 		return animationR[i].nextImage();
 		
 	}
-	
+	public Image Death() 
+	{
+		if(!forward)
+		return animationL[8].stillImage(9);
+		else
+		return animationR[8].stillImage(9);
 		
+	}
+	
+		public void dies(Hitbox box) {
+			moving = true;
+			if(box.isDead());{
+			action = 8;
+			if(forward)
+				this.vx = +10;
+
+			if(!forward)
+				this.vx = -10;
+		
+			}
+			}
 	
 	public void draw(Graphics g) 
 	{
@@ -135,6 +154,14 @@ public void damaged(Hitbox hit)
 				action = 2;
 			if(action == 5) {
 				g.drawImage(action_taken(action),x,y-13,w+20,h+47,null);
+			}
+			else if(action == 8) 
+			{
+				while(delay!=0) {
+					g.drawImage(action_taken(action),x,y,w,h,null);
+					delay --;
+				}
+				g.drawImage(Death(),x,y,w,h,null);
 			}
 			else
 			g.drawImage(action_taken(action),x,y,w,h,null);

@@ -6,7 +6,8 @@ import java.awt.event.*;
 public abstract class Stage  
 {
 	static Stage[] stage = new Stage[40];
-	
+	 int mx = -1;
+	 int my = -1;
 	static int total = 0;
 	
 
