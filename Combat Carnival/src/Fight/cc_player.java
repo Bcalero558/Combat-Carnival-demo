@@ -4,22 +4,31 @@ import java.awt.*;
 
 public class cc_player extends Rect
 {
+	
 	String []pose = {
 			"Idle","Walk", "Jump",
 			"Jab","Cross","Overhead","Lower",
 			"Hurt"
 		};
-	boolean testing = true;
+
 	Animation[] animationL;
 	Animation[] animationR;
 	int action = 0;
 	boolean moving = false;
 	boolean forward;
 	boolean attacking = false;
-
-	public cc_player(String name,int x, int y,int duration, int w, int h, boolean forward) {
+	int timer = 50;
+	int delay = 50;
+	public boolean testing = false;
+	boolean player1;
+	
+	public cc_player(String name,int x, int y,int duration, int w, int h, boolean p1) {
 		super(x, y, w, h);
-		this.forward = forward;
+		this.player1 = p1;
+		if(p1)
+		this.forward = true;
+		else
+		this.forward = false;
 		animationL = new Animation[pose.length];
 		animationR = new Animation[pose.length];
 		for(int i = 0; i < animationL.length;i++) 
@@ -57,7 +66,7 @@ public class cc_player extends Rect
 			}
 		}
 	}
-
+	
 	public void moveLT(int dx)	
 	{
 		if(!attacking) {
@@ -79,11 +88,11 @@ public class cc_player extends Rect
 	}
 public void overhead_attack() 
 {
-
-		
+	
 	action = 5;
 	moving = true;
 	attacking = true;
+
 }
 public void lower_attack() 
 {
@@ -96,9 +105,14 @@ public void lower_attack()
 }
 public void basic_attack() 
 {
-	action = 3;
-	moving = true;
-	attacking = true;
+			action = 3;
+			moving = true;
+			attacking = true;	
+}
+public void damaged(Hitbox hit) 
+{
+	if(hit.isHurt)
+		action = 7;
 }
 	public Image action_taken(int i) 
 	{
@@ -108,6 +122,9 @@ public void basic_attack()
 		return animationR[i].nextImage();
 		
 	}
+	
+		
+	
 	public void draw(Graphics g) 
 	{
 		if (testing == true)
@@ -116,8 +133,9 @@ public void basic_attack()
 		action = 0;
 			if(airtime && !attacking)
 				action = 2;
-			if(action == 5)
-				g.drawImage(action_taken(action),x,y-13,w+10,h+37,null);
+			if(action == 5) {
+				g.drawImage(action_taken(action),x,y-13,w+20,h+47,null);
+			}
 			else
 			g.drawImage(action_taken(action),x,y,w,h,null);
 	}

@@ -24,15 +24,23 @@ public Image nextImage()
 {
 	if(delay == 0)
 	{
-	next++;
+	setNext(getNext() + 1);
 	
-	if (next == image.length) next = 0;
+	if (getNext() == image.length) setNext(0);
 	
 	
 	delay = duration;
 }
 	delay--;
-	return image[next];
+	return image[getNext()];
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public int getNext() {
+	return next;
+}
+
+public void setNext(int next) {
+	this.next = next;
+}
 }

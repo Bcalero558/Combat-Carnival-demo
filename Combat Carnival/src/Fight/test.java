@@ -14,19 +14,22 @@ public class test extends Base
 			"Jab","Cross","Overhead","Lower",
 			"Hurt"
 		};
-	cc_player p1 = new cc_player("default", 0, 0, 9 ,70,160,leftOfScreen);
-	cc_player p2 = new cc_player("default", 0, 0, 9 ,70,160,!leftOfScreen);
+	cc_player p1 = new cc_player("default", 0, 0, 20 ,140,320,leftOfScreen);
+	cc_player p2 = new cc_player("default", 0, 0, 9 ,140,320,!leftOfScreen);
 	
 	Rect2 sampleHitBox = new Rect2 (p1.x+100,p1.y,20,20);
 	Rect2 sampleHurtBox = new Rect2 (p1.x,p1.y,20,20);
-	Hitbox Hitbox = new Hitbox(p1.x+180,p1.y+310,32,105);
-	
+	Hitbox Hitbox = new Hitbox(p1.x+180,p1.y+310,32,105,100);
+	HurtBox Hurtbox = new HurtBox(1000,1000,1,1);
 	
 	
 	public void gameLoop() {
 		p1.moving= false;
 		p1.attacking = false;
 		Hitbox.hitbox_move(p1);
+		Hurtbox.hurtbox_move(p1);
+		if(!Hurtbox.hurts)
+			Hurtbox =  new HurtBox(10000,10000,1,1);
 		if(pressing[_W]) p1.jump();
 		if(pressing[_W]) p1.jump();
 		if(pressing[_A]) p1.moveLT(5);
@@ -55,7 +58,12 @@ public class test extends Base
 		g.drawString("HitBox Cord: x = " + Hitbox.x + " , y = "  + Hitbox.y + " , width = "  + Hitbox.w + " , height = "  + Hitbox.h , 300, 150);
 		g.setColor(Color.red);
 		sampleHurtBox.draw(g);
-		g.drawString("HurtBox Cord: x = " + sampleHurtBox.x + " , y = "  + sampleHurtBox.y+ " , width = "  + sampleHurtBox.y+ " , height = "  + sampleHurtBox.h , 300, 100);
+		if(testing )
+			Hurtbox.draw(g);
+		g.drawString("HurtBox Cord: x = " + sampleHurtBox.x + " , y = "  + sampleHurtBox.y+ " , width = "  + sampleHurtBox.w + " , height = "  + sampleHurtBox.h , 300, 100);
+		
+		
+
 	}
 	public void mouseDragged(MouseEvent e)
 	{

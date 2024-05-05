@@ -14,11 +14,16 @@ public class Fighting_Stage_1  extends Stage{
 			   new Rect (-40 - Camera.x/1, 509 - Camera.y/1 , 60, 360),  
 			   new Rect (1889-Camera.x/1, 509-Camera.y/1, 114, 360)
    };
-	
+boolean testing = false;
    cc_player p1;
 	
 	cc_player p2;
-   
+	
+	Hitbox Hitbox1 = new Hitbox(180,310,32,105,100);
+	Hitbox Hitbox2 = new Hitbox(180,310,32,105,100);
+	HurtBox Hurtbox1 = new HurtBox(1000,1000,1,1);
+	HurtBox Hurtbox2 = new HurtBox(1000,1000,1,1);
+	
 	CameraFocus center = new CameraFocus (972, 708,70,160);
 ImageLayer[] Background = 
 		{ 
@@ -40,15 +45,33 @@ public Fighting_Stage_1(boolean[] pressing, cc_player p1, cc_player p2)
 }
 
 
-
 @Override
 	public void inGameLoop() {
 		// TODO Auto-generated method stub
+		Hitbox1.setHealthLocation(p1);
+		Hitbox1.setHealthLocation(p2);
+		
+		p1.testing = testing;
+		p2.testing = testing;
+		testing = false;
 		p1.moving= false;
 		p1.attacking= false;
 		p2.moving= false;
 		p2.attacking= false;
-
+		Hitbox1.hitbox_move(p1);
+		Hurtbox1.hurtbox_move(p1);
+		if(!Hurtbox1.hurts)
+			Hurtbox1 =  new HurtBox(10000,10000,1,1);
+		Hitbox2.hitbox_move(p2);
+		Hurtbox2.hurtbox_move(p2);
+		if(!Hurtbox2.hurts)
+			Hurtbox2 =  new HurtBox(10000,10000,1,1);
+		Hitbox1.Damage_taken(Hurtbox2,p1);
+		Hitbox2.Damage_taken(Hurtbox1,p2);
+		
+		
+		
+		
 		center.CameraMovement(p1,p2, 500);
 			if(pressing[_W]) 
 				p1.jump();
@@ -165,7 +188,17 @@ public Fighting_Stage_1(boolean[] pressing, cc_player p1, cc_player p2)
 				
 			}
 			}
-		
+			if(pressing[_P]) 
+			{
+				if(testing == true) 
+				{
+				testing = false;	
+				}
+				if(testing == false) {
+					testing = true;
+				}
+					
+			}
 	}
 
 	
@@ -174,18 +207,32 @@ public Fighting_Stage_1(boolean[] pressing, cc_player p1, cc_player p2)
 		for(int i = 0; i<6;i++)
 			Background[i].draw(g);
 		
-			
+		
 			for(int i =-500; i < 2000; i+=250) {
 			Floor.x = i;
 			Floor.draw(g);
 			}
 			g.setColor(Color.yellow);
+			if(testing) {
 			for(int i = 0; i < wall.length;i++)
 			wall[i].draw(g);
 			center.draw(g);
 			g.setColor(Color.green);
+			Hitbox1.draw(g);
+			Hitbox2.draw(g);
+			
+			g.setColor(Color.red);
+			Hurtbox1.draw(g);
+			Hurtbox2.draw(g);
+			}
+			g.setColor(Color.green);
+			
 			p1.draw(g);
 			p2.draw(g);
+			Hitbox1.showHealth(g,p1);
+			Hitbox2.showHealth(g,p2);
+			g.drawString("Health: " + Hitbox2.Health, p2.x,p2.y);
+			g.drawString("Health: " + Hitbox1.Health, p1.x,p1.y);
 	}
 
 }
