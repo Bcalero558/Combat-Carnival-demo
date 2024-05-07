@@ -10,8 +10,8 @@ public class Rect
 	int x, y, w, h;
 
 	
-	double vx = 0;
-	double vy = 0;
+	double vx = 10;
+	double vy = 10;
 	double ay = g;
 	static double g = 1.5;
 	static double f = .6;

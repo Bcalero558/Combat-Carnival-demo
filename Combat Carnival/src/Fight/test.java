@@ -18,6 +18,9 @@ public class test extends Base
 	cc_player p1 = new cc_player("default", 0, 0, 20 ,140,320,leftOfScreen);
 	cc_player p2 = new cc_player("default", 0, 0, 9 ,140,320,!leftOfScreen);
 	
+	Block block1 = new Block(1100,1100,1,1);
+
+	
 	Rect2 sampleHitBox = new Rect2 (p1.x+100,p1.y,20,20);
 	Rect2 sampleHurtBox = new Rect2 (p1.x,p1.y,20,20);
 	Hitbox Hitbox = new Hitbox(p1.x+180,p1.y+310,32,105,100);
@@ -30,6 +33,10 @@ public class test extends Base
 		p1.attacking = false;
 		Hitbox.hitbox_move(p1);
 		Hurtbox.hurtbox_move(p1);
+		
+		
+			block1 = new Block(1100,1100,1,1);
+		
 		if(!Hurtbox.hurts)
 			Hurtbox =  new HurtBox(10000,10000,1,1);
 		if(pressing[_W]) p1.jump();
@@ -46,7 +53,9 @@ public class test extends Base
 			testing = true;
 		p1.testing = true;
 		}
-		//if(pressing[_S]) p1.moveDN(10);
+		if(pressing[_S]&&!p1.moving&&!p1.attacking) 
+			block1.block_move(p1);
+		
 		if(pressing[_D])  p1.moveRT(5);
 		
 	}
@@ -65,8 +74,8 @@ public class test extends Base
 		if(testing )
 			Hurtbox.draw(g);
 		g.drawString("HurtBox Cord: x = " + sampleHurtBox.x + " , y = "  + sampleHurtBox.y+ " , width = "  + sampleHurtBox.w + " , height = "  + sampleHurtBox.h , 300, 100);
-		
-		
+		g.setColor(Color.blue);
+		block1.draw(g);
 
 	}
 	public void mouseDragged(MouseEvent e)
