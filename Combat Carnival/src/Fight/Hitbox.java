@@ -39,7 +39,7 @@ public class Hitbox extends Rect {
 		{
 		if(this.overlaps(hurt)) {
 			if(Health > 0)
-			Health -= 5;
+			Health -= 10;
 			isHurt = true;
 			}
 				
@@ -121,10 +121,6 @@ public class Hitbox extends Rect {
 	public void showHealth(Graphics g, cc_player p) 
 	{
 		if(p.player1) {
-			for(int i = 0; i <5; i++) 
-			{
-				
-			}
 			if(Health == 0) 
 				g.drawImage(UI[4],0, 0, 597,140,null);
 			if(Health > 0) 

@@ -19,6 +19,10 @@ public class cc_player extends Rect
 	boolean attacking = false;
 	int timer = 100;
 	int delay = 100;
+	
+	double coolDown = 1200;
+	double lastTime = 0;
+	
 	public boolean testing = false;
 	boolean player1;
 	
