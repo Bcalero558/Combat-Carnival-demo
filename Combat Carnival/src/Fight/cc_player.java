@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class cc_player extends Rect
 {
-	
+	int distanceFromPlayer;
 	String []pose = {
 			"Idle","Walk", "Jump",
 			"Jab","Cross","Overhead","Lower",
@@ -147,7 +147,24 @@ public void damaged(Hitbox hit)
 		
 			}
 			}
-	
+		public void chase(Rect player, Rect ai, int dx)
+		{
+			moving = true;
+			distanceFromPlayer = Math.abs(player.x - ai.x);
+			// Chases the player if player is within range
+			if(distanceFromPlayer <= 350) 
+			{
+				if(isLeftOf(player)) {  
+					forward = true;
+					moveRT(dx); 
+				}
+				if(isRightOf(player)) { 
+					forward = false;
+					moveLT(dx);
+				}
+				
+			}
+		}
 	public void draw(Graphics g) 
 	{
 		if (testing == true)

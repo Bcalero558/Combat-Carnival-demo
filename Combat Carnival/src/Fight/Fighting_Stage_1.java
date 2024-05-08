@@ -1,15 +1,16 @@
 package Fight;
 
 import java.awt.*;
+import java.util.Random;
 
 
 public class Fighting_Stage_1  extends Stage{
-
-	
+Random rand = new Random();
+	int rand_int;
 ////Objects /////////////////////////////////////////////
 	boolean Fightscreen = false;
 	boolean leftOfScreen = true;
-	boolean gameover = true;
+	boolean player2 = true;
 	public int[] wordPlayer = 
 	{
 		16,12,1,25,5,18
@@ -23,10 +24,9 @@ public class Fighting_Stage_1  extends Stage{
 		4,18,1,23
 	};
    double timer1 = 0;
-   double lasttime1 = 0;
-   double now;
+   double timer3 = 0;
    double timer2 = 0;
-   double lasttime2 = 0;
+   
    int Letterposition = 0;
 	Rect[] wall = 
 	{
@@ -72,6 +72,16 @@ public Fighting_Stage_1(boolean[] pressing, Image[] letters)
 @Override
 	public void inGameLoop() {
 		// TODO Auto-generated method stub
+	rand_int = rand.nextInt(4);
+	if(pressing[_6]) 
+	{
+		if(player2)
+		player2 = false;
+		else if(!player2)
+			player2 = true;
+	}
+	
+	
 	if(Fightscreen) {
 		Fightscreen = false;
 		   p1 = new cc_player("default", 616 -Camera.x, 300 - Camera.y, 10 ,280,640, leftOfScreen);
@@ -88,7 +98,7 @@ public Fighting_Stage_1(boolean[] pressing, Image[] letters)
 		stage[0]=stage[1];
 	
 	}
-		now = System.currentTimeMillis();
+		
 		block1 = new Block(1100,1100,1,1);
 		block2 = new Block(1200,1200,1,1);
 		p1.testing = testing;
@@ -104,6 +114,7 @@ public Fighting_Stage_1(boolean[] pressing, Image[] letters)
 		p2.moving= false;
 		p2.attacking= false;
 		}
+		
 		Hitbox1.hitbox_move(p1);
 		Hurtbox1.hurtbox_move(p1);
 		if(!Hurtbox1.hurts)
@@ -151,6 +162,8 @@ public void playing()
 		timer1--;
 	if (timer2>0)
 	timer2--;
+	if (timer3>0)
+		timer3--;
 	//attacks
 	if (pressing[_R] && timer1 == 0) {
 		timer1 = 42;
@@ -185,7 +198,9 @@ if(pressing[_A] && timer1 == 0)
 	if(!p1.attacking)
 	timer1 = 2;
 }
-//if(pressing[_S]) p1.moveDN(10);
+if(pressing[_S]&&!p1.moving&&!p1.attacking) 
+	block1.block_move(p1);
+
 
 if(pressing[_D] && timer1 == 0) 
 	{
@@ -202,6 +217,7 @@ p1.move();
 //////////////////////////////////////////////////////////////////////////////////
 
 //attacks
+if(player2) {
 	if (pressing[_Y]&& timer2 == 0) {
 		timer2 = 42;
 		p2.overhead_attack();
@@ -231,8 +247,8 @@ if(pressing[_J] && timer2 == 0)
 	timer2 = 2;
 }
 
-if(pressing[_S]&&!p1.moving&&!p1.attacking) 
-	block1.block_move(p1);
+if(pressing[_K]&&!p2.moving&&!p2.attacking) 
+	block1.block_move(p2);
 
 if(pressing[_L]&& timer2 == 0) 
 {
@@ -245,8 +261,30 @@ if(!p1.attacking)
 timer2 = 2;
 
 }
-
-
+}
+else 
+{
+	
+	if(timer2 == 0 && rand_int == 0) {
+	p2.chase(Hitbox1,Hitbox2,10);
+	timer2 = 42;
+	}
+	if(timer3 == 0) {
+	if (rand_int == 1 && timer2 == 0) {
+		timer2 = 42;
+		p2.overhead_attack();
+	}
+	if (rand_int == 2&& timer2 == 0) {
+		timer2 = 42;
+		p2.basic_attack();	
+	}
+	if (rand_int == 3 && timer2 == 0) {
+		timer2 = 42;
+		p2.lower_attack();
+	}
+	timer3 = 82;
+	}
+}
 p2.move();
 
 
