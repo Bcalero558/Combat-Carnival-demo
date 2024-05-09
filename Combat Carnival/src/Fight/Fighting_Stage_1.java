@@ -266,8 +266,8 @@ else
 {
 	
 	if(timer2 == 0 && rand_int == 0) {
-	p2.chase(Hitbox1,Hitbox2,10);
-	timer2 = 42;
+		p2.chase(Hitbox1,Hitbox2,10);
+	timer2 = 5;
 	}
 	if(timer3 == 0) {
 	if (rand_int == 1 && timer2 == 0) {
